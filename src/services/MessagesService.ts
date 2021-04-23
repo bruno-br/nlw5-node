@@ -1,3 +1,4 @@
+import { getCustomRepository } from "typeorm";
 import { MessagesRepository } from "../repositories/MessagesRepository";
 
 interface IMessageCreate {
@@ -8,14 +9,13 @@ interface IMessageCreate {
 
 export class MessagesService {
   async create({ admin_id, text, user_id }: IMessageCreate) {
-    const messagesRepository = new MessagesRepository();
+    const messagesRepository = getCustomRepository(MessagesRepository);
 
     const message = messagesRepository.create({
       admin_id,
       text,
       user_id,
     });
-
     await messagesRepository.save(message);
 
     return message;
