@@ -10,9 +10,7 @@ export class UsersService {
   }
   async create(email: string) {
     // Verificar se o usuario existe
-    const userExists = await this.usersRepository.findOne({
-      email,
-    });
+    const userExists = await this.findByEmail(email);
 
     // Se existir, retornar user
     if (userExists) {
@@ -25,6 +23,14 @@ export class UsersService {
     });
 
     await this.usersRepository.save(user);
+
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.usersRepository.findOne({
+      email,
+    });
     return user;
   }
 }
