@@ -14,4 +14,15 @@ export class SettingsController {
       });
     }
   }
+
+  async update(request: Request, response: Response): Promise<Response> {
+    const { username } = request.params;
+    const { chat } = request.body;
+
+    const settingsService = new SettingsService();
+
+    const settings = await settingsService.update(username, chat);
+
+    return response.json(settings);
+  }
 }
