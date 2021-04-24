@@ -12,16 +12,15 @@ io.on("connect", (socket) => {
 
     const userExists = await usersService.findByEmail(email);
 
-    if (!userExists) {
-      const user = await usersService.create(email);
-
+    if (userExists) {
       await connectionsService.create({
-        user_id: user.id,
+        user_id: userExists.id,
         socket_id,
       });
     } else {
+      const user = await usersService.create(email);
       await connectionsService.create({
-        user_id: userExists.id,
+        user_id: user.id,
         socket_id,
       });
     }
